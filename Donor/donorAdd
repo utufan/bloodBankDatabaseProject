@@ -1,0 +1,26 @@
+<?php
+
+error_reporting(E_ALL ^ E_DEPRECATED);
+
+$link = mysqli_connect("localhost", "root", "", "proje");
+
+// Check connection
+if ($link === false) {
+    die("ERROR: Could not connect. " . mysqli_connect_error());
+}
+
+if (isset($_POST['ssn']) && isset($_POST['did']) && isset($_POST['bloodType'])) {
+
+    $ssn = $_POST['ssn'];
+    $did = $_POST['did'];
+    $bloodType = $_POST['bloodType'];
+
+    $sql = "INSERT INTO donor_donate (ssn, did, bloodType) VALUES ('$ssn', '$did', '$bloodType');";
+    if (mysqli_query($link, $sql)) {
+        echo "<script>alert('Donor Successfully Added.')</script>";
+    } else {
+        echo "<script>alert('Failed to Add.')</script>";
+    }
+}
+
+echo "<script>location.assign('donorTable.php')</script>";
