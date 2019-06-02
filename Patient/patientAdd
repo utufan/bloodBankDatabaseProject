@@ -1,0 +1,30 @@
+<?php
+
+error_reporting(E_ALL ^ E_DEPRECATED);
+
+$link = mysqli_connect("localhost", "root", "", "proje");
+
+// Check connection
+if ($link === false) {
+    die("ERROR: Could not connect. " . mysqli_connect_error());
+}
+
+if (isset($_POST['ssn']) && isset($_POST['pid']) && isset($_POST['bloodType']) && isset($_POST['illness']) && isset($_POST['hid'])) {
+
+    $ssn = $_POST['ssn'];
+    $pid = $_POST['pid'];
+    $bloodType = $_POST['bloodType'];
+    $illness = $_POST['illness'];
+    $hid = $_POST['hid'];
+
+    $sql1 = "INSERT INTO patient_receive (ssn, pid, bloodType) VALUES ('$ssn', '$pid', '$bloodType');"; 
+    $sql2 = "INSERT INTO patient_receive2 (pid, illness) VALUES ('$pid', '$illness');"; 
+    $sql3 = "INSERT INTO patient_receive3 (pid, hid) VALUES ('$pid', '$hid');";
+    if (mysqli_query($link, $sql1) && mysqli_query($link, $sql2) && mysqli_query($link, $sql3)) {
+        echo "<script>alert('Patient Successfully Added.')</script>";
+    } else {
+        echo "<script>alert('Failed to Add.')</script>";
+    }
+}
+
+echo "<script>location.assign('patientTable.php')</script>";
