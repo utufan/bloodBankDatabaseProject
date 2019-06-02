@@ -1,0 +1,46 @@
+<?php
+
+session_start();
+if ($_SESSION['status'] != "ACTIVE") {
+    header("Location: homepage.php");
+}
+
+error_reporting(E_ALL ^ E_DEPRECATED);
+
+$link = mysqli_connect("localhost", "root", "", "proje");
+
+// Check connection
+if ($link === false) {
+    die("ERROR: Could not connect. " . mysqli_connect_error());
+}
+
+
+if (isset($_POST['bbid']) && isset($_POST['did']) && isset($_POST['ddate'])) {
+
+    $bbid = $_POST['bbid'];
+    $did = $_POST['did'];
+    $ddate = $_POST['ddate'];
+    
+    $sql = "INSERT INTO bloodbank (bbid, did, ddate) VALUES ('$bbid', '$did', '$ddate');";
+    if (mysqli_query($link, $sql)) {
+        echo "<script>alert('Blood Bank Successfully Added.')</script>";
+    } else {
+        echo "<script>alert('Invalid query: ' . mysql_error())</script>";
+    }
+}
+
+if (isset($_POST['did2']) && isset($_POST['hemoglobin']) && isset($_POST['hemaocrit'])) {
+
+    $hemoglobin = $_POST['hemoglobin'];
+    $did = $_POST['did2'];
+    $hemaocrit = $_POST['hemaocrit'];
+    
+    $sql = "INSERT INTO bloodbank2 (did, hemoglobin, hemaocrit) VALUES ('$did', '$hemoglobin', '$hemaocrit');";
+    if (mysqli_query($link, $sql)) {
+        echo "<script>alert('Donation Detail Successfully Added.')</script>";
+    } else {
+        echo "<script>alert('Invalid query: ' . mysql_error())</script>";
+    }
+}
+
+echo "<script>location.assign('bloodBankTable.php')</script>";
