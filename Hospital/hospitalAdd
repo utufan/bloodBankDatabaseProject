@@ -1,0 +1,27 @@
+<?php
+
+error_reporting(E_ALL ^ E_DEPRECATED);
+
+$link = mysqli_connect("localhost", "root", "", "proje");
+
+// Check connection
+if ($link === false) {
+    die("ERROR: Could not connect. " . mysqli_connect_error());
+}
+
+if (isset($_POST['hid']) && isset($_POST['hname']) && isset($_POST['haddress']) && isset($_POST['hpno'])) {
+
+    $hid = $_POST['hid'];
+    $hname = $_POST['hname'];
+    $haddress = $_POST['haddress'];
+    $hpno = $_POST['hpno'];
+
+    $sql = "INSERT INTO hospital (hid, haddress, hname, hpno) VALUES ('$hid', '$haddress', '$hname', '$hpno');";
+    if (mysqli_query($link, $sql)) {
+        echo "<script>alert('Hospital Successfully Added.')</script>";
+    } else {
+        echo "<script>alert('Failed to Add.')</script>";
+    }
+}
+
+echo "<script>location.assign('hospitalTable.php')</script>";
